@@ -1,0 +1,13 @@
+echo "(내용)" >> (파일명), rm (파일명)
+git: branch -M (브랜치명), remote add origin (깃 클립보드), push -u origin (브랜치명), push, remote -v, remote remove origin, 
+clone (깃 클립보드) /* 위 clone 뒤에 " ." 붙이면 그 폴더에 복사됨 */
+
+echo "# os2025a" >> README.md
+echo : 
+rm : 지우기(remove)
+git branch -M main : master에서 main으로 변경
+git remote add origin https://github.com/nz663633/os2025a.git(내 깃허브 주소)
+origin  https://github.com/nz663633/os2025a.git (fetch)
+origin  https://github.com/nz663633/os2025a.git (push)
+git remote -v : 
+git push
