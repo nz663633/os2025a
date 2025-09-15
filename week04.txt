@@ -1,0 +1,6 @@
+깃 명령어
+
+git commit --amend -m "수정할 커밋메시지"
+git reset --hard HEAD~(최근 커밋부터 삭제할 갯수)
+git fetch
+git pull
