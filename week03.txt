@@ -10,4 +10,4 @@ git remote add origin https://github.com/nz663633/os2025a.git(내 깃허브 주�
 origin  https://github.com/nz663633/os2025a.git (fetch)
 origin  https://github.com/nz663633/os2025a.git (push)
 git remote -v : 
-git push
+git push : github에 올리기(한 번만 해주면 됨)
