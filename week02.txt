@@ -33,4 +33,4 @@ git add . : 변경된 모든 파일을 한 번에 추가
 git log . : 현재 폴더
 git log .. : 상위 폴더
 commit 966f6bacadbe608d3c49c2213f206a2e6021a1d3 : hash code 해쉬코드
-git checkout (hash code) : 
+git checkout (hash code) : 지정한 커밋해시로 이동
