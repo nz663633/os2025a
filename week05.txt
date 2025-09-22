@@ -14,3 +14,4 @@ git reset
 
 - 기타
 .gitignore 파일 생성 (*.exe)
+package, import, func, println, printf, {}, ;
