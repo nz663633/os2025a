@@ -10,7 +10,6 @@ func main() {
 ------------------------------------------------
 
 < Go 명령어 >
-
 go mod init 프로젝트폴더명 : 모듈 초기화(생성) -> 현재 폴더에 go.mod 파일 생성
 go run hello.go : hello.go 파일 실행
 go build hello.go : 디렉터리를 빌드(hello.exe라는 실행파일 생성)
@@ -18,10 +17,72 @@ go build hello.go : 디렉터리를 빌드(hello.exe라는 실행파일 생성)
 
 < 기타 >
 .gitignore 파일 생성 (*.exe) : git에서 특정 파일이나 폴더를 추적하지 않도록 설정하는 파일
-package : 모든 go 파일은 package절로 시작해야 함
-import : go 파일에서 참조하는 모든 패키지는 반드시 가져와야 함
+package : 모든 go 파일은 package절로 시작해야함
+import : go 파일에서 참조하는 모든 패키지는 반드시 가져와야함
 func : 함수를 정의
-Println : 'ln'은 줄바꿈을 의미
-printf
-{}
-;
+Println : 인자들을 공백으로 연결해서 출력하고 자동으로 줄바꿈을 추가
+          형식 지정자 해석 X
+Printf : 포맷 문자열을 사용해 출력 형식을 직접 지정
+         %d, %s, %f, %v 같은 형식 지정자를 사용해서 출력 모양을 제어
+         줄바꿈을 자동으로 추가하지 않으므로 필요시 \n을 포맷 문자열에 추가해야함
+{} : 코드의 범위를 구분
+; : 문장 끝에 필요(직접 쓸 필요 거의 없음)
+:= : 변수 선언과 초기화 동시에 가능(자동 타입 추론)
+
+float64 : 부동 소수점 숫자 타입으로 소수부를 가진 숫자 값을 저장
+
+< 변수 선언(variable declaration) >
+var 변수명 변숫값의타입
+변수를 선언하고 나면 = 기호를 사용해 해당 타입의 값을 할당할 수 있음
+변수 선언과 동시에 값 할당가능 (동시에 값 여러 개 할당가능)
+값 할당 안하면 제로 값(zero value)으로 초기화
+
+< 타입 변환 >
+수학 및 비교연산에는 동일한 타입의 값만 사용가능
+
+
+
+------------------------------------------------
+
+package main
+
+import "fmt"
+
+func main() {
+    number := 7
+    fmt.Printf("Git/Github for %d\n", number)
+}
+
+위와 같은 코드에서 fmt.Println을 쓰면 에러가 나는 이유
+: Println은 단순히 인자를 공백으로 구분해서 출력하고 줄바꿈만 해줌
+-> %d, %s, %f, %v 같은 형식 지정자(format specifier)는 fmt.Printf를 사용해야함!
+
+
+package main
+
+import "fmt"
+
+func main() {
+    name := "Go developers"
+    fmt.Println("Git/Github for", name)
+}
+
+------------------------------------------------
+
+package main
+
+import "fmt"
+
+func main() {
+    totalPrice := 500
+    fmt.Println(totalPrice)
+}
+
+package main
+
+import "fmt"
+
+func main() {
+    var 64f float64  // 변수명은 숫자로 시작할 수 없음 
+    fmt.Println(64f, reflect.TypeOf(64f))  // reflect 패키지를 import 안함
+}
