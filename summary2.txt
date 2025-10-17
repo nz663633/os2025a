@@ -1,0 +1,27 @@
+// hello.go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, Go!")
+}
+
+------------------------------------------------
+
+< Go 명령어 >
+
+go mod init 프로젝트폴더명 : 모듈 초기화
+go run hello.go : hello.go 파일 실행
+go build hello.go : 디렉터리를 빌드(hello.exe라는 실행파일 생성)
+
+
+< 기타 >
+.gitignore 파일 생성 (*.exe)
+package
+import
+func
+Println
+printf
+{}
+;
