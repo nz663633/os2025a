@@ -11,17 +11,17 @@ func main() {
 
 < Go 명령어 >
 
-go mod init 프로젝트폴더명 : 모듈 초기화
+go mod init 프로젝트폴더명 : 모듈 초기화(생성) -> 현재 폴더에 go.mod 파일 생성
 go run hello.go : hello.go 파일 실행
 go build hello.go : 디렉터리를 빌드(hello.exe라는 실행파일 생성)
 
 
 < 기타 >
-.gitignore 파일 생성 (*.exe)
-package
-import
-func
-Println
+.gitignore 파일 생성 (*.exe) : git에서 특정 파일이나 폴더를 추적하지 않도록 설정하는 파일
+package : 모든 go 파일은 package절로 시작해야 함
+import : go 파일에서 참조하는 모든 패키지는 반드시 가져와야 함
+func : 함수를 정의
+Println : 'ln'은 줄바꿈을 의미
 printf
 {}
 ;
