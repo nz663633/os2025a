@@ -40,6 +40,7 @@ log : 프로그램 실행 중 에러 메시지 기록 (오류 기록)
 os : 파일, 디렉토리, 환경변수, 표준 입출력 등 os와 관련된 기능 제공
 strconv : 문자열과 숫자 사이 변환
 strings : 문자열 탐색, 자르기, 변경, 비교 등 (문자열 처리)
+reflect : 데이터의 타입 정보를 확인
 
 
 < 변수 선언(variable declaration) >
@@ -118,8 +119,8 @@ func main() {
     // fmt.Println(int)  -> 에러
 
     r := bufio.NewReader(os.Stdin)
-    i, err := r.ReadString('\n')
-    if err != nil {
+    i, err := r.ReadString('\n')  // err은 RedString() 함수가 반환한 두 번째 값(에러 정보)를 담는 변수
+    if err != nil {  // 에러가 발생한다면?
         log.Fatal(err)  // report the error and exit the program
     }
 
@@ -143,3 +144,37 @@ func main() {
 
 -------------------------------------------------------------
 
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+func main() {
+    var f64 float64
+    var str string
+    var i32 int32
+    var b bool
+    fmt.Println(f64, reflect.TypeOf(f64))  // float64 (기본값 0)
+    fmt.Println(str, reflect.TypeOf(str))  // string (기본값 "")
+    fmt.Println(i32, reflect.TypeOf(i32))  // int32 (기본값 0)
+    fmt.Println(b, reflect.TypeOf(b))  // bool (기본값 false)
+}
+
+-------------------------------------------------------------
+
+package main
+
+import (
+    "fmt"
+    "math"
+    "strings"
+)
+
+func main() {
+    fmt.Println(math.Ceil(2.71))  // Ceil : 올림 함수 (2.71 -> 3.0)
+    fmt.Println(strings.Title("head first go"))
+}
+
+-------------------------------------------------------------
