@@ -209,3 +209,21 @@ func main() {
 
 -------------------------------------------------------------
 
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "time"
+)
+
+func main() {
+    seconds := time.Now().Unix()  // time.Now() : 현재 시각을 가져옴
+                                  // Unix() : 해당 시각을 초 단위 정숫값으로 가져옴
+    rand.Seed(seconds)  // 난수 생성
+    target := rand.Intn(100) + 1  // 매번 다른 난수 생성
+    fmt.Println("I've chosen a random number between 1 and 100.")
+    fmt.Println("Can you guess it?")
+    fmt.Println(target)
+}
+
