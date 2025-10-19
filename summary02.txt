@@ -118,8 +118,8 @@ func main() {
     // var int int = 7  -> 오류
     // fmt.Println(int)  -> 에러
 
-    r := bufio.NewReader(os.Stdin)
-    i, err := r.ReadString('\n')  // err은 RedString() 함수가 반환한 두 번째 값(에러 정보)를 담는 변수
+    r := bufio.NewReader(os.Stdin)  // 키보드로부터 텍스트를 읽어오기 위함
+    i, err := r.ReadString('\n')  // err은 ReadString() 함수가 반환한 두 번째 값(에러 정보)를 담는 변수
     if err != nil {  // 에러가 발생한다면?
         log.Fatal(err)  // report the error and exit the program
     }
@@ -178,3 +178,34 @@ func main() {
 }
 
 -------------------------------------------------------------
+
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    broken := "G# r#cks!"
+    replacer := strings.NewReplacer("#", "o")  // 문자열 교체 도구 객체를 만드는 함수
+    fixed := replacer.Replace(broken)  // Replace 매서드를 호출해 치환활 문자열을 전달
+    fmt.Println(fixed)
+}
+
+-------------------------------------------------------------
+
+package main
+
+import (
+    "fmt"
+    "math/rand"
+)
+
+func main() {
+    target := rand.Intn(100) + 1  // rand.Intn(100) : 0~99 사이의 정수 생성
+    fmt.Println(target)
+}
+
+-------------------------------------------------------------
+
