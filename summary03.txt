@@ -1,0 +1,17 @@
+# 오픈소스프로그래밍-9주차
+
+Printf : 문자열을 포맷해서 출력
+         콘솔에 바로 표시할 때 사용
+Sprintf : 문자열을 포맷해서 반환
+          문자열을 조합해 나중에 쓰거나 저장할 때 사용
+
+< 형식 동사 >
+%t : 부울(true 또는 false)
+%v : 값의 타입에 따라 적절히 형식화된 값
+%#v : Go 프로그램 코드에 나타나는 그대로 형식화된 값 (Go 코드 형태로 출력)
+%T : 제공된 값의 타입
+
+fmt.Printf("A boolean: %t\n", false) -> A boolean: false
+fmt.Printf("Values: %v %v %v\n", 1.2, "\t", true) -> Values: 1.2    true
+fmt.Printf("Values: %#v %#v %#v\n", 1.2, "\t", true) -> Values: 1.2 "\t" true
+fmt.Printf("Types: %T %T %T\n", 1.2, "\t", true) -> Types: float64 string bool
