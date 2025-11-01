@@ -15,3 +15,138 @@ fmt.Printf("A boolean: %t\n", false) -> A boolean: false
 fmt.Printf("Values: %v %v %v\n", 1.2, "\t", true) -> Values: 1.2    true
 fmt.Printf("Values: %#v %#v %#v\n", 1.2, "\t", true) -> Values: 1.2 "\t" true
 fmt.Printf("Types: %T %T %T\n", 1.2, "\t", true) -> Types: float64 string bool
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func paintNeeded(width float64, height float64) {
+    area := width * height
+    fmt.Printf("%.2f liters needed\n", area/10.0) // 10m^2당 1L의 페인트가 필요
+}
+
+func main() {
+    paintNeeded(4.2, 3.0)
+    paintNeeded(5.2, 3.5)
+    paintNeeded(5.0, 3.3)
+    // fmt.Println(area) -> 에러발생, 함수 블록 내에 선언된 변수는 함수 블록의 스코프에서만 유효
+}
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func double(number float64) float64 {
+    return number * 2
+}
+
+func main() {
+    dozen := double(6.0)
+    fmt.Println(dozen)
+    fmt.Println(double(4.2))
+}
+
+-> 함수가 값을 반환하면(return) 함수를 호출하는 호출자는 반환 값을
+   변수에 할당하거나 다른 함수에 직접 전달하거나 하는 등 반환 값으로
+   할 수 있는 모든 작업을 수행할 수 있다.
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func status(grade float64) string { // string은 이 함수가 어떤 타입의 값을 반환할 것인지 나타냄
+    if grade < 60.0 {
+        return "failing"
+    }
+    return "passing"
+}
+
+func main() {
+    fmt.Println(status(60.1))
+    fmt.Println(status(59))
+}
+
+-> return문이 실행되면 함수는 이후의 코드 실행을 중단시키고 바로 함수를 빠져나온다.
+
+--------------------------------------------------------------
+
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+func main() {
+    err := errors.New("height can't be negative")
+    fmt.Println(err) // 에러 메시지 콘솔에 출력(프로그램 계속 실행)
+    log.Fatal(err) // 에러 메시지를 다시 출력한 다음 프로그램 종료
+}
+
+-> height can't be negative
+   2025/11/01 14:23:45 height can't be negative
+
+
+// 에러 메시지에 숫자나 다른 값의 형식을 지정해야 하는 경우에 사용
+err := fmt.Errorf("a height of %0.2f is invalid", -2.333333)
+fmt.Println(err.Error()) // 에러 메시지 문자열을 직접 반환(반환 타입 string)
+fmt.Println(err) // error 타입을 감지하면 자동으로 err.Error()를 실행
+
+--------------------------------------------------------------
+
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func floatParts(number float64) (integerPart int, fractionalPart float64) {
+    wholeNumber := math.Floor(number)
+    return int(wholeNumber), number - wholeNumber
+}
+
+func main() {
+    cans, remainder := floatParts(1.26)
+    fmt.Println(cans, remainder)
+}
+
+-> integerPart: 첫번째 반환 값의 이름 , fractionalPart: 두번째 반환 값의 이름
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func paintNeeded(width float64, height float64) (float64, error) { // float64는 페인트의 양을 나타내는 반환 값, error는 에러 여부를 나타내는 두번째 반환 값
+    if width < 0 { // 너비 값이 유효하지 않은 경우 0과 에러를 반환
+        return 0, fmt.Errorf("a width of %0.2f is invalid", width)
+    }
+    if height < 0 { // 높이 값이 유효하지 않은 경우 0과 에러를 반환
+        return 0, fmt.Errorf("a height of %0.2f is invalid", height)
+    }
+    area := width * height
+    return area / 10.0, nil
+}
+
+func main() {
+    amount, err := paintNeeded(4.2, -3.0)
+    fmt.Println(err) // 에러가 없는 경우 nil을 출력, 에러 객체이면 에러 메시지 문자열 출력
+    fmt.Printf("%0.2f liters needed\n", amount)
+}
+
+-> a height of -3.00 is invalid
+   0.00 liters needed
+
+-> 반환 값을 사용하여 항상 에러의 발생 여부를 확인해야함
+
+★ p. 101 예제 꼭 풀어볼 것 ★
+
+--------------------------------------------------------------
