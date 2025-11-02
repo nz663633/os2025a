@@ -150,3 +150,77 @@ func main() {
 ★ p. 101 예제 꼭 풀어볼 것 ★
 
 --------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+// float64 값을 만들고 그 주소를 반환하는 함수
+func createPointer() *float64 { // *float64는 실수 값을 가리키는 주소, float64는 실수 값 자체
+    var myFloat = 98.5
+    return &myFloat
+}
+
+func main() {
+    var myFloatPointer *float64 = createPointer()
+    fmt.Println(*myFloatPointer) // 여기서 *는 역참조 연산자
+}
+
+-> 주소가 가리키는 대상의 타입을 *로 표기
+
+--------------------------------------------------------------
+
+var a float64 = 98.5
+var b float64 = 42.1
+var p *float64 = &a
+
+fmt.Println(a) = 98.5
+fmt.Println(b) = 42.1
+fmt.Println(p) = 0xc00000140a0 (a의 메모리 주소)
+fmt.Println(*p) = 98.5 (a의 주소가 가리키는 실제 값 = a의 값)
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func printPointer(myBoolPointer *bool) { // myBoolPointer가 &myBool을 가리킴
+    fmt.Println(*myBoolPointer)
+}
+
+func main() {
+    var myBool bool = true
+    printPointer(&myBool)
+}
+
+--------------------------------------------------------------
+
+package main
+
+import "fmt"
+
+func main() {
+    amount := 6
+    double(amount) 
+    fmt.Println(amount)
+}
+
+func double(number int) { // double 함수는 값의 복사본에 2를 곱하고 있음(원래 값 변하지 X) 
+    number *= 2  // 원래 값이 아닌 복사된 값을 변경
+}
+
+
+package main
+
+import "fmt"
+
+func main() {
+    amount := 6
+    double(&amount) // amount의 주소를 받아 실제 메모리 안의 값을 12로 변경
+    fmt.Println(amount) // 바뀐 amount의 값을 출력
+}
+
+func double(number *int) {
+    *number *= 2  // number가 가리키는 주소(&amount)에 가서 값 변경, *number는 amount의 실제 값
+}
