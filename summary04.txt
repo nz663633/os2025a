@@ -1,0 +1,13 @@
+# 오픈소스프로그래밍-10주차
+
+< package 패키지>
+
+변수를 대문자로 해서 외부에서 갖고오거나 사용할 수 있음.
+(첫글자를 무조건 대문자로!!! 함수 이름이 소문자로 시작할시 외부에 노출이 되지 않는다.)
+
+go get github.com/headfirstgo/keyboard(스키마 부분 제외)
+-> github.com에 접속해 /headfirstgo/greeting 경로에 Git 저장소를 다운로드한 뒤
+   Go 작업 공간의 src 디렉터리에 저장
+
+
+< array 배열 >
