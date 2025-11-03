@@ -1,12 +1,5 @@
 package main
 
-// import "greeting"
-
-// func main() {
-// 	greeting.Hello()
-// 	greeting.Hi()
-// }
-
 import (
 	"fmt"
 	"keyboard"
