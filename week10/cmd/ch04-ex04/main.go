@@ -1,4 +1,4 @@
-package korean
+package main
 
 import (
 	"week10/pkg/greeting"
