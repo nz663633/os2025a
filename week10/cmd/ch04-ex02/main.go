@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"keyboard"
 	"log"
+	"week10/pkg/keyboard"
 )
 
 func main() {

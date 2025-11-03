@@ -1,4 +1,4 @@
-package deutsch
+package korean
 
 import "fmt"
 
