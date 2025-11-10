@@ -7,7 +7,7 @@ func main() {
 	subjectsSlice := subjects[:3]
 	// subjects[0] = "Java"
 	subjectsSlice[0] = "Java"
-	subjectsSlice = append(subjectsSlice, "Go")
+	subjectsSlice = append(subjectsSlice, "Go", "Kotlin", "Database")
 	for _, subject := range subjects {
 		fmt.Println(subject)
 	}
