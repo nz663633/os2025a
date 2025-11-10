@@ -3,8 +3,10 @@ package main
 import "fmt"
 
 func main() {
-	subjects := []string{"Go", "Javascript", "Python", "Linux"}
-	subjectsSlice := subjects[1:3] // slicing
+	subjects := [4]string{"Go", "Javascript", "Python", "Linux"}
+	subjectsSlice := subjects[:3]
+	// subjects[0] = "Java"
+	subjectsSlice[0] = "Java"
 	for _, subject := range subjects {
 		fmt.Println(subject)
 	}
