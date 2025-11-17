@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func mean(numbers ...float64) float64 {
+func mean(numbers ...float64) float64 { // 여러 개의 float64를 한 번에 받을 수 있음
 	var sum float64 = 0
 	for _, number := range numbers {
 		sum += number

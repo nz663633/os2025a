@@ -31,6 +31,7 @@ func GetFloats(fileName string) ([]float64, error) {
 	}
 	return numbers, nil
 }
+
 func main() {
 	weights, err := GetFloats("meatWeight.txt")
 	if err != nil {

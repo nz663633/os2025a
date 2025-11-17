@@ -15,13 +15,13 @@ func GetFloats(fileName string) ([3]float64, error) {
 		return numbers, err
 	}
 	i := 0
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file) // 파일을 한 줄씩 읽기 쉽게 해줌
 	for scanner.Scan() {
 		numbers[i], err = strconv.ParseFloat(scanner.Text(), 64)
 		if err != nil {
 			return numbers, err
 		}
-		i++
+		i++ // 다음 인덱스로 이동
 	}
 	err = file.Close()
 	if err != nil {
