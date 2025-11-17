@@ -14,7 +14,10 @@ func applyPrice(s *subscriber) {
 
 func main() {
 	var s1 subscriber
+	var p *subscriber = &s1
 	// s1.name = "Kim Inha"
 	applyPrice(&s1)
 	fmt.Println(s1.name, s1.price)
+	fmt.Println((*p).price)
+	fmt.Println(p.price)
 }
