@@ -1,14 +1,40 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+	"strings"
+)
 
-func main() {
-	notes := []string{"do", "re", "mi", "fa", "so", "la", "ti"}
-	fmt.Println(notes[3], notes[6], notes[0])
-	primes := []int{
-		2,
-		3,
-		5,
+func GetFloat() (float64, error) { // 입력 받아서 float64로 변환하는 함수
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		return 0, err
 	}
-	fmt.Println(primes[0], primes[1], primes[2])
+
+	input = strings.TrimSpace(input)
+	number, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		return 0, err
+	}
+	return number, nil
+}
+func main() {
+	fmt.Print("점수 입력: ")
+	score, err := GetFloat()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	status := ""
+	if score >= 60 {
+		status = "합격"
+	} else {
+		status = "불합격"
+	}
+	fmt.Printf("%.2f점은 %s\n", score, status)
 }

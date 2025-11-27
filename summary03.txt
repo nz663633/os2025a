@@ -224,3 +224,97 @@ func main() {
 func double(number *int) {
     *number *= 2  // number가 가리키는 주소(&amount)에 가서 값 변경, *number는 amount의 실제 값
 }
+
+--------------------------------------------------------------
+< 수업 코드 >
+
+(1)
+package main
+
+import "fmt"
+
+func swap(first int, second int) {
+    temp := 0
+    temp = first
+    first = second
+    second = temp
+    fmt.Println(first, second)
+}
+
+func main() {
+    var a, b int = 10, 20
+    fmt.Println(a, b)
+    swap(a, b)  // first, second는 a와 b의 복사본이기 때문에 원본(a, b)는 바뀌지 않음
+    fmt.Println(a, b)
+    // fmt.Printf("%.2f\n", math.Sqrt(-25.0)) >> NaN
+}
+
+->  10 20
+    20 10
+    10 20
+
+(1-1)
+package main
+
+import "fmt"
+
+func swap(first *int, second *int) { // first와 second는 int값의 메모리 주소를 받음, a와 b의 원래 저장된 메모리 공간을 직접 수정가능
+    temp := 0
+    temp = *first
+    *first = *second
+    *second = temp
+    fmt.Println(*first, *second)
+}
+
+func main() {
+    var a, b int = 10, 20
+    fmt.Println(a, b)
+    swap(&a, &b) // call by pointer
+    fmt.Println(a, b)
+    // fmt.Printf("%.2f\n", math.Sqrt(-25.0))
+}
+
+->  10 20
+    20 10
+    20 10
+
+(2)
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "log"
+    "os"
+    "strconv"
+    "strings"
+)
+
+func GetFloat() (float64, error) { // 입력 받아서 float64로 변환하는 함수
+    reader := bufio.NewReader(os.Stdin)
+    input, err := reader.ReadString('\n')
+    if err != nil {
+        return 0, err
+    }
+
+    input = strings.TrimSpace(input)
+    number, err := strconv.ParseFloat(input, 64)
+    if err != nil {
+        return 0, err
+    }
+    return number, nil
+}
+
+fmt.Print("점수 입력: ")
+score, err := GetFloat()
+if err != nil {
+    log.Fatal(err)
+}
+
+status := ""
+if score >= 60 {
+    status = "합격"
+} else {
+    status = "불합격"
+}
+fmt.Println("%.2f점은 %s\n", score, status)
