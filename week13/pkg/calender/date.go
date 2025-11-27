@@ -1,6 +1,9 @@
 package calender
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type Date struct {
 	year  int
@@ -8,7 +11,12 @@ type Date struct {
 	day   int
 }
 
+func welcome() { // unexported
+	fmt.Println("환영합니다")
+}
+
 func (d *Date) Year() int {
+	welcome() // OK!
 	return d.year
 }
 
