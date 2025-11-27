@@ -6,10 +6,10 @@ type Meters float64
 type Kilometers float64
 type Miles float64
 
-func (l Meters) ToMiles() Miles {
+func (l Kilometers) ToMiles() Miles {
 	return Miles(l * 0.621371)
 }
-func (m Kilometers) ToMiles() Miles {
+func (m Meters) ToMiles() Miles {
 	return Miles(m * 0.000621371)
 }
 
