@@ -1,30 +1,35 @@
-// average2 calculates the average of several numbers.
 package main
 
 import (
 	"fmt"
 	"log"
-	"os"
-	"strconv"
+
+	"github.com/headfirstgo/datafile"
 )
 
-func mean(numbers ...float64) float64 {
-	var sum float64 = 0
-	for _, number := range numbers {
-		sum += number
-	}
-	return sum / float64(len(numbers))
-}
-
 func main() {
-	arguments := os.Args[1:]
-	var numbers []float64
-	for _, argument := range arguments {
-		number, err := strconv.ParseFloat(argument, 64)
-		if err != nil {
-			log.Fatal(err)
-		}
-		numbers = append(numbers, number)
+	lines, err := datafile.GetStrings("votes.txt")
+	if err != nil {
+		log.Fatal(err)
 	}
-	fmt.Printf("평균 고기 소비량: %0.2f\n", mean(numbers...))
+	// fmt.Println(lines)
+	var names []string
+	var counts []int
+	for _, line := range lines {
+		matched := false
+		for i, name := range names {
+			if name == line {
+				counts[i]++
+				matched = true
+			}
+		}
+		if matched == false { // 처음 나온 이름
+			names = append(names, line)
+			counts = append(counts, 1)
+		}
+	}
+
+	for i, name := range names {
+		fmt.Println(name, ":", counts[i])
+	}
 }
