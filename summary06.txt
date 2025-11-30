@@ -1,0 +1,47 @@
+# 오픈소스프로그랭-12주차
+
+
+
+
+
+
+--------------------------------------------------------------
+
+< 수업 코드 >
+
+★(1)★ p.245~246
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "github.com/headfirstgo/datafile"
+)
+
+func main() {
+    lines, err := datafile.GetStrings("votes.txt")
+    if err != nil {
+        log.Fatal(err)
+    }
+    // fmt.Println(lines)
+    var names []string
+    var counts []int
+    for _, line := range lines {
+        matched := false
+        for i, name := range names {
+            if name == line {
+                counts[i]++
+                matched = true
+            }
+        }
+        if matched == false { // 처음 나온 이름을 names에 추가
+            names = append(names, line)
+            counts = append(counts, 1)
+        }
+    }
+
+    for i, name := range names {
+        fmt.Println(name, ":", counts[i])
+    }
+}
