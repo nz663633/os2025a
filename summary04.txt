@@ -11,3 +11,220 @@ go get github.com/headfirstgo/keyboard(스키마 부분 제외)
 
 
 < array 배열 >
+
+
+--------------------------------------------------------------
+
+< 수업 코드 >
+
+# keyboard.go(패키지)
+// Package keyboard reads user input from the keyboard.
+package keyboard
+
+import (
+	"bufio"
+	"os"
+	"strconv"
+	"strings"
+)
+
+// GetFloat reads a floating-point number from the keyboard.
+// It returns the number read and any error encountered.
+func GetFloat() (float64, error) {
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		return 0, err
+	}
+
+	input = strings.TrimSpace(input)
+	number, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		return 0, err
+	}
+	return number, nil
+}
+
+(1)
+package main
+
+import (
+	"fmt"
+	"log"
+	"week10/pkg/keyboard"
+)
+
+func main() {
+	fmt.Print("점수 입력: ")
+	score, err := keyboard.GetFloat()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if score >= 80 {
+		fmt.Printf("%.1f점은 합격!", score)
+	} else {
+		fmt.Printf("%.1f는 불합격...", score)
+	}
+}
+
+(2)
+package main
+
+import (
+   "fmt"
+   "log"
+   "week10/pkg/keyboard"
+)
+
+func main() {
+   fmt.Print("화씨 온도 입력: ")
+   fahrenheit, err := keyboard.GetFloat()
+   if err != nil {
+      log.Fatal(err)
+   }
+
+   var celsius float64
+   celsius = (fahrenheit - 32) * 5 / 9
+   fmt.Print("화씨온도 %.2f는 섭씨온도 %.2f입니다.", fahrenheit, celsius)
+}
+
+(3)
+package main
+
+import (
+   "fmt"
+   "log"
+   "github.com/headfirstgo/keyboard" // go get github.com/headfirstgo
+)
+
+func main() {
+   fmt.Print("실수 입력: ")
+   number, err := keyboard.GetFloat()
+   if err != nil {
+      log.Fatal(err)
+   }
+   if number >= 80 {
+      fmt.Printf("%.1f\n", number)
+   }
+}
+
+(4)
+package main
+
+import "fmt"
+
+func main() {
+   var arrayBool [3]bool
+   var arrayInt [3]int
+   fmt.Println(arrayBool[1]) // zero value
+
+   arrayInt[1]++
+   arrayInt[1] = arrayInt[1] + 1
+   fmt.Println(arrayInt[1]) // zero value + 2
+}
+
+-> false
+   2
+
+(4-1)
+package main
+
+import "fmt"
+
+func main() {
+   var arrayBool [3]bool = [3]bool{true,false,true}
+   var arrayInt [3]int
+   
+   fmt.Println(arrayBool[1])
+   arrayInt[1] = 2
+   fmt.Println(arrayInt[1])
+}
+
+-> false
+   2
+
+(4-2)
+package main
+
+import "fmt"
+
+func main() {
+   arrayBool := [3]bool{true,false,true}
+   var arrayInt [3]int
+   
+   fmt.Println(arrayBool[1])
+   arrayInt[1] = 2
+   fmt.Println(arrayInt[1])
+}
+
+-> false
+   2
+
+(4-3)
+package main
+
+import "fmt"
+
+func main() {
+   arrayBool := [3]bool{true, false, true}
+   arrayInt := [3]int{-9, 11, 7}
+   for i := 0; i < 3; i++ {
+      fmt.Println(i, arrayInt[i])
+      fmt.Println(i, arrayBool[i])
+   }
+   // fmt.Println(reflect.TypeOf(arrayBool))
+   // fmt.Println("%#v\n", arrayBool) -> 포맷 문자열 인식X, 문자열 그대로 출력
+   // fmt.Printf("%#v\n", arrayBool)
+   // fmt.Printf("%#v\n", arrayInt)
+}
+
+-> 0 true
+   1 11
+   1 false
+   2 7
+   2 true
+   [3]bool
+   %#v
+    [true false true]
+   [3]bool{true, false, true}
+   [3]int{-9, 11, 7}
+
+(4-4)
+package main
+
+import "fmt"
+
+func main() {
+   arrayBool := [2]bool{true, false}
+   arrayInt := [3]int{-9, 11, 7}
+   for i := 0; i < len(arrayInt); i++ {
+      fmt.Println(i, arrayInt[i])
+      fmt.Println(i, arrayBool[i]) // runtime error(배열의 길이가 서로 달라 배열 범위를 벗어나서)
+      // 1. 반복문에서 두 배열 모두 접근해야 한다면, 더 짧은 길이에 맞춰야함
+      // 2. 두 배열의 길이가 다르면 따로 for문을 작성해야함
+   }
+   // fmt.Println(reflect.TypeOf(arrayBool))
+   fmt.Printf("%#v\n", arrayBool)
+   fmt.Printf("%#v\n", arrayInt)
+}
+
+(4-5)
+package main
+
+import "fmt"
+
+func main() {
+   // numbers := [3]int{-9, 11, 7}
+   // for i := 0; i < len(numbers); i++ {
+   //    fmt.Println(i, numbers[i])
+   // }
+
+   numbers := [3]int{-9, 11, 7}
+   for i, number := range numbers {
+      fmt.Println(i, number)
+   }
+}
+
+-> 0 -9
+   1 11
+   2 7
