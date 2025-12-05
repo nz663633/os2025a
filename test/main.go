@@ -2,34 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/headfirstgo/datafile"
+	"github.com/headfirstgo/magazine"
 )
 
 func main() {
-	lines, err := datafile.GetStrings("votes.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	// fmt.Println(lines)
-	var names []string
-	var counts []int
-	for _, line := range lines {
-		matched := false
-		for i, name := range names {
-			if name == line {
-				counts[i]++
-				matched = true
-			}
-		}
-		if matched == false { // 처음 나온 이름
-			names = append(names, line)
-			counts = append(counts, 1)
-		}
-	}
-
-	for i, name := range names {
-		fmt.Println(name, ":", counts[i])
-	}
+	var s1 magazine.Subscriber
+	var e1 magazine.Employee
+	s1.Name = "Choi Inha"
+	e1.Name = "Lee Inha"
+	e1.Salary = 50000000
+	e1.Address.City = "Incheon"
+	s1.Address.City = "Seoul"
+	fmt.Println(s1.Name, s1.Address.City)
+	fmt.Println(e1.Name, e1.Salary)
 }

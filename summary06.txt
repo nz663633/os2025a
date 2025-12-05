@@ -1,15 +1,35 @@
 # 오픈소스프로그랭-12주차
 
+var myMap map[string]float64
+// map 키워드 작성
+// string은 키 타입, float64는 값 타입
+// 맵의 키에는 거의 모든 타입의 값 사용 가능
 
-
-
-
+- 맵 변수의 값이 자동으로 생성되지 않기 때문에 make 함수를 사용해 맵 값을 직접 생성해줘야 함
+  (맵을 사용할 때는 make 함수가 필수 O)
+- for...range 루프는 맵을 무작위 순서로 처리
 
 --------------------------------------------------------------
 
 < 수업 코드 >
 
-★(1)★ p.245~246
+(1)
+package main
+
+import "fmt"
+
+func main() {
+    notes := []string{"do", "re", "mi", "fa", "so", "la", "ti"}
+    fmt.Println(notes[3], notes[6], notes[0])
+    primes := []int {
+        2,
+        3,
+        5,
+    }
+    fmt.Println(primes[0], primes[1], primes[2])
+}
+
+★(2)★-slice 기반 p.245~246
 package main
 
 import (
@@ -25,8 +45,8 @@ func main() {
         log.Fatal(err)
     }
     // fmt.Println(lines)
-    var names []string
-    var counts []int
+    var names []string // 후보자들의 이름 목록을 저장할 변수 선언
+    var counts []int // 각 이름들의 횟수 저장
     for _, line := range lines {
         matched := false
         for i, name := range names {
@@ -45,3 +65,121 @@ func main() {
         fmt.Println(name, ":", counts[i])
     }
 }
+
+★(2-1)★-map 기반
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "github.com/headfirstgo/datafile"
+)
+
+func main() {
+    lines, err := datafile.GetStrings("votes.txt")
+    if err != nil {
+        log.Fatal(err)
+    }
+    counts := make(map[string]int)
+    for _, line := range lines {
+        counts[line]++
+    }
+
+    for name, count := range counts { // 키/값 쌍을 순회
+        fmt.Println("득표수: ", name, ":", count)
+    }
+}
+
+(3)
+package main
+
+import "fmt"
+
+func main() {
+	ranks := map[string]int{"bronze": 3, "silver": 2, "gold": 1}
+	fmt.Println(ranks["gold"])
+	fmt.Println(ranks["bronze"])
+	elements := map[string]string{
+		"H":  "Hydrogen",
+		"Li": "Lithium",
+	}
+	fmt.Println(elements["H"])
+	fmt.Println(elements["Li"])
+}
+
+-> 1
+   3
+   Hydrogen
+   Lithium
+
+★(4)★
+package main
+
+import "fmt"
+
+type subscriber struct { // name, price라는 두 개의 필드를 가지는 사용자 정의 타입
+    name string
+    price float32
+}
+
+func applyPrice(s *subscriber) { // *subscriber는 구조체의 포인터 값을 받음
+    s.price = 10000
+    s.name = "Park Inha" // 구조체의 필드 값 변경
+}
+
+func main() {
+    var s1 subscriber
+    // s1.name = "Kim Inha"
+    applyPrice(&s1)
+    fmt.Println(s1.name, s1.price)
+}
+
+★(4-1)★
+package main
+
+import "fmt"
+
+type subscriber struct { // name, price라는 두 개의 필드를 가지는 사용자 정의 타입
+	name  string
+	price float32
+}
+
+func applyPrice(s *subscriber) { // *subscriber는 구조체의 포인터 값을 받음
+	s.price = 10000
+	s.name = "Park Inha" // 구조체의 필드 값 변경
+}
+
+func main() {
+	var s1 subscriber
+    var p *subscriber = &s1
+	// s1.name = "Kim Inha"
+	applyPrice(&s1) // s1의 주소를 applyPrice 함수에 넘김 -> 원본 수정 가능
+	fmt.Println(s1.name, s1.price)
+    fmt.Println((*p).price)
+    fmt.Println(p.price) // 위 코드와 동일하게 취급됨
+}
+
+(5)
+package main
+
+import (
+	"fmt"
+
+	"github.com/headfirstgo/magazine"
+)
+
+func main() {
+	var s1 magazine.Subscriber
+	var e1 magazine.Employee
+	s1.Name = "Choi Inha"
+	e1.Name = "Lee Inha"
+	e1.Salary = 50000000
+	e1.Address.City = "Incheon"
+	s1.Address.City = "Seoul"
+	fmt.Println(s1.Name, s1.Address.City)
+	fmt.Println(e1.Name, e1.Salary)
+}
+
+-> Choi Inha Seoul
+   Lee Inha 5e+07
