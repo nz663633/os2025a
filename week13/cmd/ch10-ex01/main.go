@@ -23,5 +23,4 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(today.Year(), "년 ", today.Month(), "월 ", today.Day(), "일")
-	// today.welcome()
 }

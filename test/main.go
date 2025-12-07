@@ -2,18 +2,25 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/headfirstgo/magazine"
+	"log"
+	calendar "week13/pkg/calendar"
 )
 
 func main() {
-	var s1 magazine.Subscriber
-	var e1 magazine.Employee
-	s1.Name = "Choi Inha"
-	e1.Name = "Lee Inha"
-	e1.Salary = 50000000
-	e1.Address.City = "Incheon"
-	s1.Address.City = "Seoul"
-	fmt.Println(s1.Name, s1.Address.City)
-	fmt.Println(e1.Name, e1.Salary)
+	// today := calendar.Date{year: 2025, month: 11, day: 24}
+	today := calendar.Date{}
+	err := today.SetYear(2025)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// err = today.SetMonth(15)
+	err = today.SetMonth(11)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = today.SetDay(24)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(today.year(), "년 ", today.Month(), "월 ", today.Day(), "일")
 }
