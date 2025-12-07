@@ -12,6 +12,10 @@
   value := MyType("a MyType value")
   value.sayHi()
 
+- 매서드 매개변수는 한 가지 타입만 받을 수 있음
+
+- m MyType
+  m *MyType >> 포인터 타입은 객체의 주소를 받는다.
 
 --------------------------------------------------------------
 
@@ -84,7 +88,7 @@ type Date struct {
 	day   int
 }
 
-func (d *Date) Year() int {
+func (d *Date) Year() int { // 첫문자는 대문자를 사용해 패키지 외부로 노출할 수 있음
 	return d.year
 }
 func (d *Date) Month() int {
@@ -93,11 +97,11 @@ func (d *Date) Month() int {
 func (d *Date) Day() int {
 	return d.day
 }
-func (d *Date) SetYear(year int) error {
+func (d *Date) SetYear(year int) error { // 포인터 리시버로 변경해야 원래 값 변경 가능
 	if year < 1 {
 		return errors.New("invalid year")
 	}
-	d.year = year
+	d.year = year // 복사본이 아닌 원래 값 변경
 	return nil
 }
 func (d *Date) SetMonth(month int) error {

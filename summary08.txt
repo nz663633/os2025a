@@ -1,0 +1,360 @@
+# 오픈소스프로그래밍-14주차
+
+$ git reset --hard HEAD~n : 현재로부터 n번째 이전 커밋으로 되돌리기
+(n : 최근 커밋부터 삭제할 갯수)
+$ git push -f origin main : 강제로 업로드
+
+- 인터페이스는 특정 값이 가지고 있기를 기대하는 매서드의 집합으로 정의됨
+  즉, 인터페이스는 동작을 수행할 수 있는 타입을 지녀야 하는 동작들의 집합
+
+- interface 키워드를 사용하여 정의할 수 있고,
+  interface 키워드 다음으로는 매서드가 가지고 있기를 기대하는 매개변수,
+  또는 반환 값과 매서드 이름의 목록이 중괄호 안에 감싸여 따라온다.
+
+type MyInterface interface { .. // 'inferface' : 인터페이스 타입 선언 }
+
+- defer : 현재 함수가 종료되기 직전에 실행할 것!
+- panic : 프로그램이 더 이상 정상적으로 실행될 수 없을 때 강제로 중단시킴
+- recover() : go 루틴에서 발생한 panic이 진행 중이면 그 panic의 값을 반환하고 멈추게 함
+              panic이 없는 상황에서 recover()를 호출하면 nil 반환
+              반드시 defer로 등록된 함수 안에서만 효과가 있음(바깥에서 호출하면 항상 nil)
+
+- goroutine : 함수를 동시에 실행시키는 방법
+- channel(채널) : 고루틴끼리 데이터를 주고받는 통로
+                  고루틴은 동시에 실행되기 때문에 값을 주고받을 때 채널을 사용함
+
+--------------------------------------------------------------
+
+< 수업 코드 >
+
+★(1)★
+package main
+
+import "fmt"
+
+// Pokemon 인터페이스 정의
+type Pokemon interface {
+	Name() string
+	Type() string
+	Attack() int
+	Defense() int
+}
+
+// Charmander 구조체
+type Charmander struct {
+	hp int
+}
+
+func (c Charmander) Name() string {
+	return "리자드"
+}
+
+func (c Charmander) Type() string {
+	return "불꽃"
+}
+
+func (c Charmander) Attack() int {
+	return 52
+}
+
+func (c Charmander) Defense() int {
+	return 43
+}
+
+// Squirtle 구조체
+type Squirtle struct {
+	hp int
+}
+
+func (s Squirtle) Name() string {
+	return "꼬부기"
+}
+
+func (s Squirtle) Type() string {
+	return "물"
+}
+
+func (s Squirtle) Attack() int {
+	return 48
+}
+
+func (s Squirtle) Defense() int {
+	return 65
+}
+
+// Bulbasaur 구조체
+type Bulbasaur struct {
+	hp int
+}
+
+func (b Bulbasaur) Name() string {
+	return "이상해씨"
+}
+
+func (b Bulbasaur) Type() string {
+	return "풀"
+}
+
+func (b Bulbasaur) Attack() int {
+	return 49
+}
+
+func (b Bulbasaur) Defense() int {
+	return 49
+}
+
+// Pokemon을 파라미터로 받는 함수
+func printPokemonInfo(p Pokemon) { // 세 포켓몬을 실제로 메모리에 만든 것
+	fmt.Printf("%s (%s)\n", p.Name(), p.Type())
+	fmt.Printf("공격: %d, 방어: %d\n\n",
+		p.Attack(), p.Defense())
+}
+
+func main() {
+	charmander := Charmander{hp: 39}
+	squirtle := Squirtle{hp: 44}
+	bulbasaur := Bulbasaur{hp: 45}
+
+	// 모두 Pokemon 인터페이스로 사용 가능
+	printPokemonInfo(charmander)
+	printPokemonInfo(squirtle)
+	printPokemonInfo(bulbasaur)
+}
+
+(2)
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	file, err := os.Open("test.txt")
+	if err != nil {
+		fmt.Println("파일 오픈 실패:", err)
+		return
+	}
+
+	// defer로 파일 닫기를 미리 예약
+	defer file.Close()
+
+	// 파일 작업 수행
+	fmt.Println("파일 읽는 중...")
+}
+
+-> 파일 오픈 실패: open test.txt: The system cannot find the file specified.
+
+(2-1)
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	defer fmt.Println("1st defer")
+	defer fmt.Println("2nd defer")
+	defer fmt.Println("3rd defer")
+    fmt.Println("main logic")
+}
+
+-> main logic
+   3rd defer
+   2nd defer
+   1st defer
+
+(3)
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("1. 프로그램 시작")
+
+	panic("심각한 에러 발생!")
+
+	fmt.Println("2. 이 줄은 실행되지 않음")
+}
+
+-> 1. 프로그램 시작
+   panic: 심각한 에러 발생!
+
+   goroutine 1 [running]:
+   main.main()
+           C:/Users/User/OneDrive/바탕 화면/os2025a/test/main.go:8 +0x59
+   exit status 2
+
+(3-2)
+package main
+
+import "fmt"
+
+func main() {
+    defer fmt.Println("프로그램 종료 - 정리작업")
+	fmt.Println("1. 프로그램 시작")
+	panic("심각한 에러 발생!")
+	fmt.Println("2. 이 줄은 실행되지 않음")
+}
+
+-> 1. 프로그램 시작
+   프로그램 종료 - 정리작업
+   panic: 심각한 에러 발생!
+
+   goroutine 1 [running]:
+   main.main()
+           C:/Users/User/OneDrive/바탕 화면/os2025a/test/main.go:8 +0x98
+   exit status 2
+
+(4)
+package main
+
+import "fmt"
+
+func safeDivide(a, b int) {
+	defer func() {
+		if err := recover(); err != nil { // panic 중이면 err에 panic값이 들어옴
+			fmt.Println("에러 발생:", err) // panic 값 사용
+		}
+	}()
+
+	if b == 0 { // b가 0일 때 panic 발생 -> defer 실행
+		panic("0으로 나눌 수 없습니다!")
+	}
+
+	result := a / b
+	fmt.Println("결과:", result)
+}
+
+func main() {
+    fmt.Println("첫 번째 호출")
+	safeDivide(10, 2)
+
+	fmt.Println("\n두 번째 호출")
+	safeDivide(10, 0)
+
+	fmt.Println("\n프로그램 계속 실행됨")
+}
+
+-> 첫 번째 호출
+   결과: 5
+
+   두 번째 호출
+   에러 발생: 0으로 나눌 수 없습니다!
+
+   프로그램 계속 실행됨
+
+(5)
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func say(msg string) {
+	for i := 0; i < 3; i++ {
+		fmt.Println(msg, ":", i)
+		time.Sleep(200 * time.Millisecond) // 실행 중인 고루틴을 일정시간 정지시키는 함수
+	}
+}
+
+func main() {
+	go say("고루틴") // 새 고루틴에서 실행
+	say("메인")     // 메인 고루틴에서 실행
+}
+
+-> 고루틴 : 0
+   메인 : 0
+   메인 : 1
+   고루틴 : 1
+   고루틴 : 2
+   메인 : 2
+
+(5-2)
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func say(msg string) {
+	for i := 0; i < 3; i++ {
+		fmt.Println(msg, ":", i)
+		time.Sleep(2000 * time.Millisecond) // 실행 중인 고루틴을 일정시간 정지시키는 함수
+	}
+}
+
+func main() {
+    start := time.Now() // 지금 시간을 기록함
+	say("고루틴") // 새 고루틴에서 실행
+	say("메인")  // 메인 고루틴에서 실행
+
+	time.Sleep(1 * time.Second)
+	fmt.Println("전체 실행 시간 : ", time.Since(start)) // start부터 얼마나 걸렸는지 계산
+}
+
+-> 고루틴 : 0
+   고루틴 : 1
+   고루틴 : 2
+   메인 : 0
+   메인 : 1
+   메인 : 2
+   전체 실행 시간 :  13.0036184s
+
+(6)
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int) // int 채널 생성
+
+	go func() {
+		ch <- 123 // 채널에 값 보내기
+	}()
+
+	x := <-ch // 채널에서 값 받기
+	fmt.Println(x)
+}
+
+-> 123
+
+(7)
+package main
+
+import "fmt"
+
+func abc(channel chan string) {
+	channel <- "내고향 스페셜\n"
+	channel <- "KBS 뉴스광장\n"
+	channel <- "인간극장\n"
+}
+
+func def(channel chan string) {
+	channel <- "건강의 재구성 설록(재)\n"
+	channel <- "오늘N\n"
+	channel <- "찾아가는 꾸러기 교실\n"
+}
+
+func main() {
+	kbs := make(chan string) // make로 채널 초기화(필수)
+	mbc := make(chan string)
+	go abc(kbs) // goroutine이 kbs 채널에 문자열을 보냄
+	go def(mbc) // goroutine이 mbc 채널에 문자열을 보냄
+	fmt.Print(<-kbs)
+	fmt.Print(<-mbc)
+	fmt.Print(<-kbs)
+	fmt.Print(<-mbc)
+	fmt.Print(<-kbs)
+	fmt.Print(<-mbc)
+	fmt.Println()
+}
+
+-> 내고향 스페셜
+   건강의 재구성 설록(재)
+   KBS 뉴스광장
+   오늘N
+   인간극장
+   찾아가는 꾸러기 교실
